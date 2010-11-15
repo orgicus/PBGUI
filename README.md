@@ -9,13 +9,15 @@ for actionscript.
 
 PBGUI generates a simple interface using <a href="http://minimalcomps.com/">Keith Peter's Minimal Comps</a>.
 
+Most of the sample images ship with Pixel Bender by default.
+For more Pixel Bender shaders checkout the <a href="http://www.adobe.com/cfusion/exchange/index.cfm?event=productHome&exc=26">Pixel Bender Exchange</a>
 <!--
 [More info...](http://disturbmedia.com/blog/)
 -->
 
 ### Example: ###
 
-[![lights_pointlights](http://orgicus.github.com/PBGUI/bin/pbgui.gif)](http://orgicus.github.com/PBGUI/pbgui.html)
+[![PBGUI](https://github.com/orgicus/PBGUI/raw/master/bin/pbgui.gif)](https://github.com/orgicus/PBGUI/blob/master/bin/pbgui.html)
 
 ### Usage ###
 
@@ -43,4 +45,9 @@ This is achieved using the ShaderControls class:
 		preview.loader.filters = on ? [shaderFilter]:[];	
 	}
 	
-PBGUI.as provides an extended example.
+<a href="https://github.com/orgicus/PBGUI/blob/master/src/com/disturbmedia/pb/PBGUI.as">PBGUI.as</a> provides an extended example.
+
+### Notes ###
+
+Not all controls have been thoroughly tested, so watch out, here be bugs!
+In case you run into any, plase provide details on the <a href="https://github.com/orgicus/PBGUI/issues">Issues</a> page.
