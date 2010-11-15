@@ -11,9 +11,9 @@ PBGUI generates a simple interface using <a href="http://minimalcomps.com/">Keit
 
 Most of the sample images ship with Pixel Bender by default.
 For more Pixel Bender shaders checkout the <a href="http://www.adobe.com/cfusion/exchange/index.cfm?event=productHome&exc=26">Pixel Bender Exchange</a>
-<!--
-[More info...](http://disturbmedia.com/blog/)
--->
+
+[More info...](http://disturbmedia.com/blog/post/pbgui-a-minimal-actionscript-ui-for-pixel-bender-shaders/)
+
 
 ### Example: ###
 
