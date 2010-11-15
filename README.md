@@ -1,4 +1,4 @@
-three.js
+PBGUI
 ========
 
 #### A Minimal Components GUI for Pixel Bender shaders ####
