@@ -7,7 +7,7 @@ Pixel Bender shaders can be used in Photoshop, After Effects and Flash Player.
 While Photoshop and After Effects provides a GUI, there are no helper GUI classes
 for actionscript.
 
-PBGUI generates a simple interface using <a href="http://minimalcomps.com/">Keith Peter's Minimal Comps</a>.
+PBGUI generates a simple interface using <a href="http://minimalcomps.com/">Keith Peters' Minimal Comps</a>.
 
 Most of the sample images ship with Pixel Bender by default.
 For more Pixel Bender shaders checkout the <a href="http://www.adobe.com/cfusion/exchange/index.cfm?event=productHome&exc=26">Pixel Bender Exchange</a>
@@ -34,14 +34,15 @@ This is achieved using the ShaderControls class:
 	controls.onReset = onReset;
 	
 	//name = shader parameter name and value is the array of values for the updated parameter
+	//preview = a DisplayObject used for previewing/applying the filters
 	function onUpdate(name : String, value : Array) : void {
 		shader.data[name].value = value;
 		preview.loader.filters = [shaderFilter];
 	}
-	private function onReset():void{
+	function onReset():void{
 		preview.loader.filters = [shaderFilter];	
 	}
-	private function onToggle(on:Boolean):void{
+	function onToggle(on:Boolean):void{
 		preview.loader.filters = on ? [shaderFilter]:[];	
 	}
 	
