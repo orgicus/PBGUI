@@ -1,0 +1,74 @@
+<languageVersion : 1.0;>
+
+kernel Bloom
+<   namespace : "com.disturbmedia";
+    vendor : "George Profenza";
+    version : 1;
+    description : "disturb media, Blur+Exposure+Threshold,band blur via http://www.adobe.com/devnet/flash/articles/pixel_bender_basics.html";
+>
+{
+    input image4 src;
+    output pixel4 dst;
+    
+    parameter int blur<minValue:0;defaultValue:0;maxValue:6;>;
+    parameter int grayscale < minValue: 0; maxValue: 1 ; defaultValue: 0; >;
+    parameter int threshold < minValue: 0; maxValue: 1 ; defaultValue: 0; >;
+    parameter float thresholdAmount < minValue: 0.0; maxValue: 1.0; defaultValue: 0.5; >;
+    parameter float3 thresholdColor < minValue: float3(0.0); maxValue: float3(1.0); defaultValue: float3(0.0); >;
+    parameter float brightness < minValue: 0.0; maxValue: 5.0; defaultValue: 1.0; >;
+
+    void
+    evaluatePixel()
+    {
+        dst = sampleNearest(src,outCoord());
+         //blur
+        if(blur > 0){
+            pixel4 center, band1, band2, band3, band4, band5, band6; float2 pos = outCoord(); 
+            //Sample image in bands
+            if (blur > 5) {
+                band6 = sampleNearest(src, float2(pos.x - 6.0, pos.y)) + sampleNearest(src, float2(pos.x + 6.0, pos.y));
+            }
+            if (blur > 4) {
+                band5 = sampleNearest(src, float2(pos.x - 5.0, pos.y)) + sampleNearest(src, float2(pos.x + 5.0, pos.y));
+            }
+            if (blur > 3) {
+                band4 = sampleNearest(src, float2(pos.x - 4.0, pos.y)) + sampleNearest(src, float2(pos.x + 4.0, pos.y));
+            }
+            if (blur > 2) {
+                band3 = sampleNearest(src, float2(pos.x - 3.0, pos.y)) + sampleNearest(src, float2(pos.x + 3.0, pos.y));
+            }
+            if (blur > 1) {
+                band2 = sampleNearest(src, float2(pos.x - 2.0, pos.y)) + sampleNearest(src, float2(pos.x + 2.0, pos.y));
+            }
+            band1 = sampleNearest(src, float2(pos.x - 1.0, pos.y)) + sampleNearest(src, float2(pos.x + 1.0, pos.y));
+            center = sampleNearest(src, pos);
+            //Apply weights and compute resulting pixel
+            if (blur == 6) {
+                dst = (band6 + (band5 * 12.0) + (band4 * 66.0) + (band3 * 220.0) + (band2 * 495.0) + (band1 * 792.0) + (center * 924.0)) / 4096.0;
+            }
+            if (blur == 5) {
+                dst = (band5 + (band4 * 10.0) + (band3 * 45.0) + (band2 * 120.0) + (band1 * 210.0) + (center * 252.0)) / 1024.0;
+            }
+            if (blur == 4) {
+                dst = (band4 + (band3 * 8.0) + (band2 * 28.0) + (band1 * 56.0) + (center * 70.0)) / 256.0;
+            }
+            if (blur == 3) {
+                dst = (band3 + (band2 * 6.0) + (band1 * 15.0) + (center * 20.0)) / 64.0;
+            }
+            if (blur == 2) {
+                dst = (band2 + (band1 * 4.0) + (center * 6.0)) / 16.0;
+            }
+            if (blur == 1) {
+                dst = (band1 + (center * 2.0)) / 4.0;
+            }
+        }
+        if(grayscale == 1){
+            float luma = 0.299 * dst.r + 0.587 * dst.g + 0.114 * dst.b;
+            dst = float4(luma,luma,luma,1.0);
+        }
+        if(threshold == 1){
+            if (length(dst.rgb) < thresholdAmount) dst.rgb = thresholdColor;
+        }
+        dst.rgb *= float3(brightness);
+    }
+}
