@@ -1,0 +1,36 @@
+<languageVersion : 1.0;>
+
+kernel VarTest
+<   namespace : "gp";
+    vendor : "George Profenza";
+    version : 1;
+    description : "just testing values";
+>
+{
+    input image4 src;
+    output pixel4 dst;
+
+    parameter float slider1;
+    parameter float2 slider2;
+    parameter float3 slider3;
+    parameter float4 slider4;
+    parameter int2 slider5;
+    parameter int3 slider6;
+    parameter int4 slider7;
+    parameter float2x2 m2;
+    parameter float3x3 m3;
+    parameter float4x4 m4;
+    
+    void
+    evaluatePixel()
+    {
+        dst = sampleNearest(src,outCoord());
+        dst.rgb *= float3(slider1);
+        slider2;
+        slider3;
+        slider7;
+        m4;
+        m3;
+        m2;
+    }
+}
