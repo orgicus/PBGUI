@@ -1,0 +1,84 @@
+<languageVersion : 1.0;>
+
+kernel Stamp
+<   namespace : "gp";
+    vendor : "George Profenza";
+    version : 1;
+    description : "Attempt to do a filter similar to Photoshop's Stamp Filter, blur code mostly from the guide: http://www.adobe.com/go/pixelbender_devguide";
+>
+{
+    input image4 source;
+    output pixel4 result;
+    
+    parameter int blur<
+        minValue:1;
+        defaultValue:3;
+        maxValue:8;
+    >;
+    parameter float threshold<
+        minValue:0.0;
+        maxValue:1.0;
+        defaultValue:0.5;
+    >;
+    
+    void
+    evaluatePixel()
+    {
+        //blur
+        const float sigma = 2.0;
+        float c = 1.0 / ( sqrt(2.0 * 3.1415926535 ) * sigma );
+        float ec = 2.0 * sigma * sigma;
+        float weight0 = exp( -( 0.0 * 0.0 ) / ec ) * c;
+        float weight1 = exp( -( 1.0 * 1.0 ) / ec ) * c;
+        if(blur > 1) float weight2 = exp( -( 2.0 * 2.0 ) / ec ) * c;
+        if(blur > 2) float weight3 = exp( -( 3.0 * 3.0 ) / ec ) * c;
+        if(blur > 3) float weight4 = exp( -( 4.0 * 4.0 ) / ec ) * c;
+        if(blur > 4) float weight5 = exp( -( 5.0 * 5.0 ) / ec ) * c;
+        if(blur > 5) float weight6 = exp( -( 6.0 * 6.0 ) / ec ) * c;
+        if(blur > 6) float weight7 = exp( -( 7.0 * 7.0 ) / ec ) * c;
+        if(blur > 7) float weight8 = exp( -( 8.0 * 7.0 ) / ec ) * c;
+        
+        float4 acc = float4( 0.0 );
+       
+        acc += sampleNearest( source, outCoord() ) * weight0;
+        acc += sampleNearest( source, outCoord() + float2( 1.0, 0.0 ) ) * weight1;
+        acc += sampleNearest( source, outCoord() + float2( -1.0, 0.0 ) ) * weight1;
+        if(blur > 1) {
+            acc += sampleNearest( source, outCoord() + float2( 2.0, 0.0 ) ) * weight2;
+            acc += sampleNearest( source, outCoord() + float2( -2.0, 0.0 ) ) * weight2;
+        }
+        if(blur > 2) {
+            acc += sampleNearest( source, outCoord() + float2( 3.0, 0.0 ) ) * weight3;
+            acc += sampleNearest( source, outCoord() + float2( -3.0, 0.0 ) ) * weight3;
+        }
+        if(blur > 3) {
+            acc += sampleNearest( source, outCoord() + float2( 4.0, 0.0 ) ) * weight4;
+            acc += sampleNearest( source, outCoord() + float2( -4.0, 0.0 ) ) * weight4;
+        }
+        if(blur > 4) {
+            acc += sampleNearest( source, outCoord() + float2( 5.0, 0.0 ) ) * weight5;
+            acc += sampleNearest( source, outCoord() + float2( -5.0, 0.0 ) ) * weight5;
+        }
+        if(blur > 5) {
+            acc += sampleNearest( source, outCoord() + float2( 6.0, 0.0 ) ) * weight6;
+            acc += sampleNearest( source, outCoord() + float2( -6.0, 0.0 ) ) * weight6;
+        }
+        if(blur > 6) {
+            acc += sampleNearest( source, outCoord() + float2( 7.0, 0.0 ) ) * weight7;
+            acc += sampleNearest( source, outCoord() + float2( -7.0, 0.0 ) ) * weight7;
+        }
+        if(blur > 7) {
+            acc += sampleNearest( source, outCoord() + float2( 8.0, 0.0 ) ) * weight8;
+            acc += sampleNearest( source, outCoord() + float2( -8.0, 0.0 ) ) * weight8;
+        }
+        //grayscale
+        float luma = 0.299 * acc.r + 0.587 * acc.g + 0.114 * acc.b;
+        acc = float4(luma,luma,luma,1.0);
+        //threshold
+        if(acc.r < threshold) acc.r = 0.0; else acc.r = 1.0;
+        if(acc.g < threshold) acc.g = 0.0; else acc.g = 1.0;
+        if(acc.b < threshold) acc.b = 0.0; else acc.b = 1.0;
+        
+        result = pixel4(acc);
+    }
+}

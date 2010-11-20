@@ -1,0 +1,75 @@
+<languageVersion : 1.0;>
+
+kernel Polar
+<   namespace : "com.disturbmedia";
+    vendor : "George Profenza";
+    version : 1;
+    description : "poltocar, cartopol, minor changes to the original code by TV-0";
+>
+{
+    input image4 src;
+    output pixel4 dst;
+
+    //parameter bool cartesian_to_polar;
+    parameter int cartesian_to_polar<
+        minValue:0;
+        maxValue:1;
+        defaultValue:1;
+    >;
+
+    parameter float radius
+    <
+        minValue: float(0.01);
+        maxValue: float(6000.0);
+        defaultValue: float(256.0);
+    >;
+    
+    parameter float2 center
+    <
+        minValue: float2(0.0, 0.0);
+        maxValue: float2(3000.0, 3000.0);
+        defaultValue: float2(256.0, 256.0);
+    >;
+    
+    void
+    evaluatePixel()
+    {
+        float2 coord = outCoord();
+        float2 p = coord-center;     // point
+        float  d = length(p);        // length
+        float  w = radius*2.0;
+        float  h = radius*2.0; 
+        
+        if(cartesian_to_polar != 1){
+
+            float theta = atan(p.y/p.x); // angle
+            if(coord.x < radius) theta += 3.14;
+            
+            float degrees = degrees(theta) + 90.0;
+
+            float dx = w - (degrees*w/360.0);
+            float dy = (d*h/radius);
+            
+            if(dx >= w) coord.x = w-1.0;
+            else        coord.x = dx;
+            
+            if(dy >= h) coord.y = h-1.0;
+            else        coord.y = dy;
+            
+        }else{
+            
+            float polardegrees = 90.0 - (coord.x + w)/w*360.0;
+            float polard       = coord.y*radius/h;
+            float polartheta   = radians(polardegrees);
+
+            float polarx = center.x - polard*cos(polartheta);
+            float polary = center.y - polard*sin(polartheta);
+                        
+            coord.x = polarx;
+            coord.y = polary;
+        
+        }
+        
+        dst = sampleNearest(src, coord);
+    }
+}
