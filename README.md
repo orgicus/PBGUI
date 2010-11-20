@@ -120,7 +120,7 @@ Here is an expanded <a href="https://github.com/orgicus/PBGUI/blob/master/src/co
 Not all controls have been thoroughly tested, so watch out, here be bugs!
 In case you run into any, plase provide details on the <a href="https://github.com/orgicus/PBGUI/issues">Issues</a> page.
 
-### Notes ###
+### Changes ###
 
 * tested controls - added VarTest kernel to test parameters
 * added ControlsContainer - if your filter has A LOT of parameters, you can set a maximum height for the controls area(default is 180)
