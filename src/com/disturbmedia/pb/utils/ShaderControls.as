@@ -79,6 +79,7 @@ package com.disturbmedia.pb.utils {
 			height += _container.titleBar.height + _vbox.spacing;
 			_width = width;
 			_height = height;
+			_vbox.draw();
 			_container.setSize(_width, _height);
 			graphics.clear();
 			graphics.lineStyle(1,0x009900,0);
@@ -124,6 +125,9 @@ package com.disturbmedia.pb.utils {
 
 		public function setShader(shader : Shader) : void {
 			init(shader);
+		}
+		public function bringToFront():void{
+			if(parent) parent.addChild(this);
 		}
 		/*FDT_IGNORE*/
 		private function stub():void{
