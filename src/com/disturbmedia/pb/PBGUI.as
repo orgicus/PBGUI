@@ -1,6 +1,4 @@
 package com.disturbmedia.pb {
-	import com.bit101.components.HBox;
-	import com.bit101.components.VBox;
 	import com.disturbmedia.pb.utils.ShaderControls;
 	import com.disturbmedia.pb.utils.ShaderPreview;
 	import com.disturbmedia.pb.utils.ShaderSelector;

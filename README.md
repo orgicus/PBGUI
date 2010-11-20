@@ -17,7 +17,7 @@ For more Pixel Bender shaders checkout the <a href="http://www.adobe.com/cfusion
 
 ### Example: ###
 
-[![PBGUI](https://github.com/orgicus/PBGUI/raw/master/bin/pbgui.gif)](https://github.com/orgicus/PBGUI/blob/master/bin/pbgui.html)
+[![PBGUI](https://github.com/orgicus/PBGUI/raw/master/bin/pbgui.gif)](http://orgicus.github.com/PBGUI/bin/pbgui.html)
 
 ### Usage ###
 

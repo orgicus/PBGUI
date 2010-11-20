@@ -1,17 +1,16 @@
 package com.disturbmedia.pb.utils {
-	import flash.display.DisplayObject;
-	import com.bit101.components.FPSMeter;
 	import com.bit101.components.CheckBox;
-	import flash.events.MouseEvent;
+	import com.bit101.components.FPSMeter;
 	import com.bit101.components.PushButton;
 	import com.bit101.components.TextArea;
-	import flash.events.Event;
-	import flash.utils.getDefinitionByName;
 	import com.bit101.components.VBox;
-	import flash.display.ShaderParameter;
 	import com.bit101.components.Window;
 	import flash.display.Shader;
+	import flash.display.ShaderParameter;
 	import flash.display.Sprite;
+	import flash.events.Event;
+	import flash.events.MouseEvent;
+	import flash.utils.getDefinitionByName;
 
 	/**
 	 * @author George Profenza
