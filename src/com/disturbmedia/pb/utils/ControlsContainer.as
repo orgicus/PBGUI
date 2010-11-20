@@ -31,29 +31,6 @@ package com.disturbmedia.pb.utils {
 			_spacing = spacing;
 			_maxHeight = maxHeight;
 			_children = new Vector.<Control>();
-			/*
-			 for (var i : int = 0; i < _numParams; i++) {
-				className = "com.disturbmedia.pb.utils." + params[i].type.substr(0, 1).toUpperCase() + params[i].type.substr(1).toLowerCase() + "Control";
-				UIClass = getDefinitionByName(className) as Class;
-				control = new UIClass() as Control;
-				control.setup(params[i]);
-				if (_onUpdate != null) control.onUpdate = _onUpdate;
-				_controls[i] = control;
-				if(i > 0){
-					var prev:Control = controlsContainer.getChildAt(i-1) as Control;
-					trace(i,prev);
-					var nh:Number = prev.y+prev.getHeight()+_vbox.spacing;
-					trace(prev.name,'prev.height: ' + (prev.getHeight()));
-					trace('nh: ' + (nh)); 
-					control.y = nh;
-					trace(control,'control.y: ' + (control.y));
-				}
-				trace(control,control.getBounds(this));
-				controlsContainer.addChild(control);
-				height += control.getHeight() + _vbox.spacing;
-				if (control.getWidth() > width) width = (control.getWidth() + _vbox.spacing * 2);
-			}
-			  */			
 		}
 
 		override public function addChild(child : DisplayObject) : DisplayObject {
