@@ -1,4 +1,5 @@
 package com.disturbmedia.pb.utils {
+	import flash.display.DisplayObject;
 	import com.bit101.components.FPSMeter;
 	import com.bit101.components.CheckBox;
 	import flash.events.MouseEvent;
@@ -19,6 +20,7 @@ package com.disturbmedia.pb.utils {
 		
 		private var _shader : Shader;
 		private var _utils : ShaderDataUtils;
+		private var _onInit:Function;
 		private var _onUpdate:Function;
 		private var _onReset:Function;
 		private var _onToggle:Function;
@@ -28,10 +30,12 @@ package com.disturbmedia.pb.utils {
 		private var _controls : Vector.<Control>;
 		private var _active : CheckBox;
 		
-		public function ShaderControls(shader:Shader) {
+		private var _width:Number = 0;
+		private var _height:Number = 0;
+		
+		public function ShaderControls(shader:Shader=null) {
 			if(shader) init(shader);
 		}
-
 		private function init(shader : Shader) : void {
 			_shader = shader;
 			_utils = new ShaderDataUtils(_shader);
@@ -59,6 +63,7 @@ package com.disturbmedia.pb.utils {
 			var className:String;
 			var UIClass:Class;
 			var control : Control;
+			var controlsContainer:ControlsContainer = new ControlsContainer(_vbox);
 			_controls = new Vector.<Control>(_numParams,true);
 			for (var i : int = 0; i < _numParams; i++) {
 				className = "com.disturbmedia.pb.utils." + params[i].type.substr(0, 1).toUpperCase() + params[i].type.substr(1).toLowerCase() + "Control";
@@ -67,15 +72,25 @@ package com.disturbmedia.pb.utils {
 				control.setup(params[i]);
 				if (_onUpdate != null) control.onUpdate = _onUpdate;
 				_controls[i] = control;
-				_vbox.addChild(control);
-				height += control.getHeight() + _vbox.spacing;
-				if (control.getWidth() > width) width = control.getWidth();
+				controlsContainer.addChild(control);
 			}
+			height += controlsContainer.getHeight();
+			if(controlsContainer.width > width) width = controlsContainer.width;
 			height += _container.titleBar.height + _vbox.spacing;
-			_container.setSize(width, height);
+			_width = width;
+			_height = height;
+			_container.setSize(_width, _height);
 			graphics.clear();
 			graphics.lineStyle(1,0x009900,0);
-			graphics.drawRect(0, 0,width, height);
+			graphics.drawRect(0, 0,_width, _height);
+			
+			if(_onInit != null) _onInit();
+		}
+		public function getWidth():Number{
+			return _width;
+		}
+		public function getHeight():Number{
+			return _height;
 		}
 		private function resetAll(event:MouseEvent = null):void{
 			for (var i : int = 0; i < _numParams; i++) {
@@ -87,6 +102,9 @@ package com.disturbmedia.pb.utils {
 
 		private function toggled(event : Event) : void {
 			if (_onToggle != null) _onToggle(_active.selected);
+		}
+		public function set onInit(callback:Function):void{
+			_onInit = callback;
 		}
 
 		public function set onUpdate(callback: Function) : void {

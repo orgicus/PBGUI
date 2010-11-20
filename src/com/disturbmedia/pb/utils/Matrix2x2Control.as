@@ -40,7 +40,6 @@ package com.disturbmedia.pb.utils {
 			graphics.lineStyle(1,0x990000,0);
 			graphics.drawRect(0, 0, _width, _height);
 		}
-		//TODO: test these
 		override public function reset() : void {
 			for (var i : int = 0; i < _numInputs; i++)	_inputs[i].value = int(_inputs[i].name);
 		}

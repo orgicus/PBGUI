@@ -1,0 +1,20 @@
+<project name="testAsDoc" default="asdoc">
+	<!-- not setup yet-->
+	<!-- import the settings -->
+	<property file="${basedir}/build_docs.properties"/>
+ 
+	<target name="asdoc">
+		<!-- delete all files in the doc dir -->
+		<delete includeemptydirs="true">
+			<fileset dir="${project.doc}" includes="**/*" />
+		</delete>
+		<!-- create docs -->
+		<exec executable="${common.asdoc}"> 
+		    <arg line="	-doc-sources '${project.src}' 
+		    		-output '${project.doc}' 
+		    		-main-title 'Test API' 
+		    		-window-title 'Test API'" /> 
+		</exec>
+	</target>
+ 
+</project>
